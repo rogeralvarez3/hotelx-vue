@@ -1,0 +1,54 @@
+<template>
+  <v-container fluid>
+    <v-carousel>
+      <v-carousel-item
+        v-for="item in items"
+        :key="item.id"
+        :src="`${item.id}.jpg`"
+      >
+      </v-carousel-item>
+    </v-carousel>
+    <v-row class="pa-2 grey lighten-4 elevation-2">
+      <h2>{{ $store.state.lang.default == "es" ? "Reseñas" : "Reviews" }}</h2>
+    </v-row>
+    <div id="reviews"></div>
+    <v-flex v-for="(coment, i) in comments" :key="i">
+      <v-row>
+        <v-col>
+          <v-img :src="coment.image"></v-img>
+          <span>{{ coment.user }}</span>
+          <span>{{ coment.date }}</span>
+        </v-col>
+        <v-col>
+          <span>{{ coment.text }}</span>
+        </v-col>
+      </v-row>
+    </v-flex>
+  </v-container>
+</template>
+
+<script>
+export default {
+  name: "rooms-view",
+  data: () => {
+    return {
+      comments: [],
+    };
+  },
+  mounted: () => {
+    const reviews = document.createElement("script");
+    reviews.setAttribute("src", "https://widget.trustmary.com/4HvXGCt0Q");
+    let parent = document.getElementById("reviews");
+    parent.appendChild(reviews);
+  },
+};
+</script>
+<style>
+.go932389133,
+.go3161678027 {
+  display: none !important;
+}
+.go316439965 {
+  padding: 0 !important;
+}
+</style>

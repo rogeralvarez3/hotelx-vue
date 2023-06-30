@@ -1,0 +1,29 @@
+{
+    "rooms": {
+        "es": "habitaciones"
+    },
+    "restaurant": {
+        "es": "restaurante"
+    },
+    "reservations": {
+        "es": "reservaciones"
+    },
+    "news": {
+        "es": "actualidad"
+    },
+    "gallery": {
+        "es": "galería"
+    },
+    "store": {
+        "es": "tienda"
+    },
+    "language": {
+        "es": "idioma"
+    },
+    "post": {
+        "es": "publicación"
+    },
+    "posts": {
+        "es": "publicaciones"
+    }
+}
