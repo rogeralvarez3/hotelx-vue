@@ -1,3 +1,4 @@
+/* eslint-disable */
 import Vue from "vue";
 import Vuex from "vuex";
 
@@ -5,7 +6,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    api: "http://tomatefotografias.es:3000",
+    api: "",
     users: [],
     posts: [],
     sections: [],
@@ -47,26 +48,30 @@ export default new Vuex.Store({
   actions: {
     getData({ state, commit }, payload) {
       let tables = ["posts", "sections", "langDictionary"];
-      let params = "";
       if (payload) {
         if (typeof payload === "object") {
           tables = [payload.table];
-          if (payload.token) {
-            params = `&token=${payload.token}`;
-          }
         } else {
           tables = [payload];
         }
       }
       tables.forEach((table) => {
-        fetch(`${state.api}?tabla=${table}${params}`, {
-          method: "get",
+        let data = { tabla: table };
+        if (typeof payload === "object") {
+          if (payload.token) { data.token = payload.token; }
+        }
+
+        fetch(`${state.api}/get`, {
+          method: "post",
+          body: JSON.stringify(data),
           headers: { "content-type": "application/json" },
         })
           .then((res) => {
-            return res.json();
+            return res.text();
           })
           .then((json) => {
+            //console.log(json, payload);
+            json = JSON.parse(json);
             commit("setData", { table: table, data: json });
           });
       });

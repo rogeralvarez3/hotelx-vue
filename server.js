@@ -12,17 +12,21 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const upload = require("./upload");
 const dotenv = require("dotenv").config().parsed;
+const history = require("connect-history-api-fallback");
+app.use(cors());
+app.use(history());
 app.use(express.static(path.resolve(__dirname, "dist")));
-app.use("/images", express.static(path.resolve(__dirname, "images")));
+app.use("/images", express.static(path.join(__dirname, "images")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
 
-app.get("/", (req, res) => {
-  if (req.query.tabla == "users" && !verifyToken(req.query.token)) {
+
+app.post("/get", (req, res) => {
+  console.log(req.body)
+  if (req.body.tabla == "users" && !verifyToken(req.body.token)) {
     res.send({ error: "access denied" });
   } else {
-    db.list(req.query, (r) => {
+    db.list(req.body, (r) => {
       if (r.length > 0) {
         if (r[0].password) {
           r.forEach((row) => {
@@ -110,7 +114,7 @@ app.post("/savePost", upload.single("file"), (req, res) => {
 io.on("connection", (socket) => {
   console.log("a user connected con el id " + socket.id);
 });
-const port = process.env.port || 3000;
+const port = process.env.port || 80;
 server.listen(port, () => {
   console.log(`listening on *:${port}`);
 });
